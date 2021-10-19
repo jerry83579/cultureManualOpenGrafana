@@ -2,9 +2,7 @@
 python:GET/POST請求/修改資料
 grafana api: Dashboard API,Dashboard Search API
 
-dashboardSelection.py 輸出儀錶板選單
-dashboardInformation.py輸出選擇的儀表板
-dashboardStop.py輸出站別選單
-dashboardStopInformation.py輸出選擇的站別選單
-2016-12-06
-2016 12-08
+grafana.bat 自動選日期開啟grafana
+dashboardSelection.py 選取儀錶板選單
+dashboardStop.py 選取站別選單
+dateSelection.py 選取日期

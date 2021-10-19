@@ -167,7 +167,7 @@ goto start
 EXIT
 
 :theEnd
-python grafana.py %uid%
+python dateSelection.py %uid%
 del data.txt
 del test.txt
 start http://10.20.1.231:3000/d/%uid%/%title%?orgId=1

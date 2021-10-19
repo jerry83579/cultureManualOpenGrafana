@@ -7,7 +7,6 @@ import subprocess, sys
 uid=sys.argv[1]
 array_from_file = np.loadtxt("test.txt", dtype=str)
 new=np.array_str(array_from_file)
-print(new)
 timeFrom=new[2:26]
 timeTo=new[29:-2]
 
