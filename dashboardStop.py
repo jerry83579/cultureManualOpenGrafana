@@ -16,7 +16,11 @@ r = requests.get('http://10.20.1.231:3000/api/dashboards/uid/'+uid,headers=heade
 dash_data=r.json()
 
 # 該圖表站別數量
-dataLength=len(dash_data["dashboard"]["templating"]["list"][0]["options"])
+try:
+    dataLength=len(dash_data["dashboard"]["templating"]["list"][0]["options"])
+except:
+    print("oops , that was wrong pls try again...")
+    sys.exit(1)
 # 顯示可選站別
 for item in dash_data["dashboard"]["templating"]["list"][0]["options"]:
     print(count,")"," ",item["text"],sep='')

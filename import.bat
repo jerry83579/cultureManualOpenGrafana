@@ -25,4 +25,12 @@ call set ArrVar=%%arima[%yourArima%]%%
 echo ArrVar %ArrVar%
 copy  %ArrVar% arima
 
+cd arima
+set /a count=1
+for /f %%i in ('dir /b') do ( 
+ren %%i location!count!.csv  2>nul 
+set /a count+=1
+
+)
+
 pause

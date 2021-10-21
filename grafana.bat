@@ -12,6 +12,8 @@ rem 判斷年份超過9補0
 set monthsize=9
 
 rem 顯示選擇資料庫圖表/提供使用者選擇資料庫圖表
+:dashboard
+echo.
 python dashboardSelection.py 
 
 set /a count=0
@@ -25,6 +27,10 @@ set title=%urlUid[2]%
 
 
 python dashboardStop.py %uid%
+if %errorlevel% equ 1 (
+call :dashboard
+echo.
+)
 echo.
 
 
@@ -63,9 +69,13 @@ for /l %%x in (1, 1, !month!) do (
 
 :cho2
 set /p fromMonth=  選擇月份:
-for /f "delims=123456789" %%a in ("%fromMonth%") do if not "%%a"=="" echo 無效請重選 &goto cho2
+for /f "delims=0123456789" %%a in ("%fromMonth%") do if not "%%a"=="" echo 無效請重選 &goto cho2
 	if %fromMonth% gtr %month% (
 	 echo 無效請重選
+	 call :cho2
+	)
+	if %fromMonth% equ 0 (
+	echo 無效請重選
 	 call :cho2
 	)
 
@@ -130,6 +140,10 @@ for /f "delims=123456789" %%a in ("%toMonth%") do if not "%%a"=="" echo 無效�
 	 echo 無效請重選
 	 call :cho4
 	)
+	if %toMonth% equ 0 (
+	echo 無效請重選
+	 call :cho4
+	)
 
 set /a yourToMonth=%toMonth%
 echo %yourToMonth%
@@ -175,4 +189,4 @@ start http://10.20.1.231:3000/d/%uid%/%title%?orgId=1
 
 pause
 
-\
+
