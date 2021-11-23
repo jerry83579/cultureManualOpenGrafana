@@ -14,7 +14,9 @@ set monthsize=9
 rem 顯示選擇資料庫圖表/提供使用者選擇資料庫圖表
 :dashboard
 echo.
+cd python
 python dashboardSelection.py 
+
 
 set /a count=0
 FOR /F %%i IN (data.txt) DO (
@@ -31,6 +33,7 @@ if %errorlevel% equ 1 (
 call :dashboard
 echo.
 )
+cd ..
 echo.
 
 
@@ -181,8 +184,10 @@ goto start
 EXIT
 
 :theEnd
+cd python
 python dateSelection.py %uid%
 del data.txt
+cd ..
 del test.txt
 start http://10.20.1.231:3000/d/%uid%/%title%?orgId=1
 
