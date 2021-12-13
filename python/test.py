@@ -1,15 +1,11 @@
-import pandas as pd
-import numpy as np
-import sys
-location = str(1)
-arima = './arima/'+location+'.csv'
-data3 = pd.read_csv(arima)
-print(data3['Temp_m'])
+import mysql.connector
 
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password=""
+)
 
-# if data3['Temp_m']== "\\N":
-#     print(data3['Temp_m'])
-#     print("空")
-# else:
-#     print(data3['Temp_m'])
-#     print("不為空")
+mycursor = mydb.cursor()
+
+mycursor.execute("CREATE DATABASE mydatabase")

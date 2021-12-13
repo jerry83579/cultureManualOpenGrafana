@@ -4,7 +4,7 @@ chcp 65001
 cls
 MODE con: COLS=60 
 set /a date=%date:~3,6%+1 
-:: DDDDDDDDDDDDDDDD
+
 set /a year=6
 rem 年份大小
 set month=12
@@ -12,8 +12,9 @@ rem 判斷年份超過9補0
 set monthsize=9
 
 rem 顯示選擇資料庫圖表/提供使用者選擇資料庫圖表
-:dashboard
+:dashboards
 echo.
+
 cd python
 python dashboardSelection.py 
 
@@ -26,6 +27,8 @@ FOR /F %%i IN (data.txt) DO (
 set uid=%urlUid[0]%
 set url=%urlUid[1]%
 set title=%urlUid[2]%
+
+
 
 
 python dashboardStop.py %uid%

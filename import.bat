@@ -132,7 +132,6 @@ echo.
 :callmergepy
 if %chebychevAmount% == %arimaAmount% if %arimaAmount% == %initializeAmount% (
 mkdir outcome 2> NUL
-python merge.py %chebychevAmount%
 echo.
 echo 合併的檔案順序
 echo Arima:
@@ -148,7 +147,10 @@ for /l %%f in (1,1,%chebychevAmount%) do ( call echo %%initializeOrder[%%f]%% )
  echo oops, has problem 
  )
 
+cd python
+python home.py %chebychevAmount% 
 
+python database.py
 
 
 

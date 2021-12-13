@@ -2,15 +2,15 @@
 $servername = "localhost";
 $username = "username";
 $password = "password";
-$database = "outcome20";
-
+$database = "outcome11";
+$t = $_GET['t'];
 // Create connection
 $conn = new mysqli($servername, $username, $password, $database);
 mysqli_options($conn, MYSQLI_OPT_LOCAL_INFILE, true);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-for($t=1;$t<=20;$t++){
+for($i=1; $i <=$t ; $i++){
 
 $sql = '
         LOAD DATA LOCAL INFILE "yourpath/location_'.$t.'.csv"
