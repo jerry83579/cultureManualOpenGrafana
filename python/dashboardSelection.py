@@ -4,14 +4,14 @@ import numpy as np
 
 headers = {
     'Accept':'application/json',
-    'Authorization': 'Bearer eyJrIjoiYUc0OXgyNk12eUtlbkhDMGo4T2JOQ0prSjV3SnFXdVAiLCJuIjoidGVzdCIsImlkIjoxfQ',
+    'Authorization': 'Bearer eyJrIjoiU08wSDcyOFZvM1BiYVZFNHhpWUdvazFWdmVseUdMeFgiLCJuIjoia2V5IiwiaWQiOjF9',
     'Content-Type': 'application/json',
 }
 r = requests.get('http://localhost:3000/api/search',headers=headers,verify=False)
 dash_data=r.json()
 dash_data_len=len(dash_data)
 count=0
-print(dash_data)
+
 # 提供選擇圖表
 for item in dash_data:
     print(count,")"," ",item["title"],sep='')

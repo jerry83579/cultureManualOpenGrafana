@@ -16,6 +16,9 @@ echo.
 
 :cho1
 set /a count=1
+If not exist "arima" (
+    mkdir arima
+) 
 set /p yourArima=請選擇要匯入的資料夾到 arima的資料夾:
 for /f "delims=0123456789" %%a in ("%yourArima%") do if not "%%a"=="" echo 無效請重選 &goto cho1
 if %yourArima% gtr %count% if %yourArima% equ 0 (
@@ -40,7 +43,6 @@ set arimaOrder[!count!]=%%i
 ren %%i !count!.csv  2>nul 
 set /a count+=1
 )
-
 echo 匯入完成
 
 cd ..
@@ -57,6 +59,9 @@ echo.
 
 :cho2
 set /a count=1
+If not exist "chebychev" (
+    mkdir chebychev
+) 
 set /p yourChebychev=請選擇要匯入的資料夾到 chebychev的資料夾:
 for /f "delims=0123456789" %%a in ("%yourArima%") do if not "%%a"=="" echo 無效請重選 &goto cho2
 if %yourChebychev% gtr %count% if %yourChebychev% equ 0 (
@@ -98,6 +103,9 @@ echo.
 
 :cho3
 set /a count=1
+If not exist "initialize" (
+    mkdir initialize
+) 
 set /p yourInitialize=請選擇要匯入的資料夾到 initialize的資料夾:
 for /f "delims=0123456789" %%a in ("%yourInitialize%") do if not "%%a"=="" echo 無效請重選 &goto cho3
 if %yourInitialize% gtr %count% if %yourInitialize% equ 0 (
@@ -150,7 +158,7 @@ for /l %%f in (1,1,%chebychevAmount%) do ( call echo %%initializeOrder[%%f]%% )
 cd python
 python home.py %chebychevAmount% 
 
-python database.py
+
 
 
 

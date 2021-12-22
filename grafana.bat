@@ -192,7 +192,7 @@ python dateSelection.py %uid%
 del data.txt
 cd ..
 del test.txt
-start http://10.20.1.231:3000/d/%uid%/%title%?orgId=1
+start http://localhost:3000/d/%uid%/%title%?orgId=1
 
 
 pause

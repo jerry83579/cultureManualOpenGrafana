@@ -98,7 +98,7 @@ def createMysqldata():
     mydb = mysql.connector.connect(
         host="localhost",
         user="root",
-        password=""
+        password="root"
     )
     mycursor = mydb.cursor()
     mycursor.execute(" CREATE DATABASE " + databaseName)
@@ -113,8 +113,11 @@ def createMysqldata():
         chebychev_temp DECIMAL(10,2) NULL DEFAULT NULL ,\
         chebychev_hum DECIMAL(10,2) NULL DEFAULT NULL ,\
         arima_temp DECIMAL(10,2) NULL DEFAULT NULL ,\
-        arima DECIMAL(10,2) NULL DEFAULT NULL )".format(location=dataOne),
-        "LOAD DATA LOCAL INFILE '../outcome/{location_}.csv' INTO TABLE '{location}' TERMINATED BY ',';".format(location=dataOne,location_=dataTwo))
-
-
+        arima DECIMAL(10,2) NULL DEFAULT NULL )".format(location=dataOne))
+    
+        sql2 = "LOAD DATA INFILE 'C:/xampp/htdocs/dashboard/cultureManualOpenGrafana/outcome/"+dataTwo+".csv' INTO TABLE "+dataOne+"  FIELDS TERMINATED BY ',' IGNORE 1 LINES "
+        mycursor.execute(sql2)
+        mydb.commit()
+        
 createMysqldata()
+
