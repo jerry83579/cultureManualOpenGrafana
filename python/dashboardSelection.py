@@ -19,7 +19,7 @@ for item in dash_data:
     dashboardSum=count
 print("\n")   
 
-
+# 選擇圖表
 def selectDashboard():
     global selectDash
     selectDash = input("請選擇圖表:") 

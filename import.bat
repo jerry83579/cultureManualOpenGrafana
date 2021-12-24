@@ -30,6 +30,11 @@ call echo 匯入 %%arima[%yourArima%]%% ...
 call set ArrVar=%%arima[%yourArima%]%%
 copy  %ArrVar% arima
 cd arima
+::刪除檔名帶有空格的空格
+set "str= "
+for /f "delims=" %%i in ('dir /b *.*') do (
+set "var=%%i" & ren "%%i" "!var:%str%=!")
+
 
 :amountRenameArima
 ::計算檔案數量
@@ -74,6 +79,10 @@ call set copy=%%chebychev[%yourChebychev%]%%
 copy  %copy% chebychev
 
 cd chebychev
+set "str= "
+for /f "delims=" %%i in ('dir /b *.*') do (
+set "var=%%i" & ren "%%i" "!var:%str%=!")
+
 dir /b
 
 :amountRenameChebychev
@@ -118,6 +127,10 @@ call set copy=%%initialize[%yourInitialize%]%%
 copy  %copy% initialize
 
 cd initialize
+set "str= "
+for /f "delims=" %%i in ('dir /b *.*') do (
+set "var=%%i" & ren "%%i" "!var:%str%=!")
+
 dir /b
 
 :amountRenameInitialize
