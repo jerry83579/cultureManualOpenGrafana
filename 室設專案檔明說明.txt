@@ -1,4 +1,0 @@
-grafana.bat//提供使用者輸入日期打開grafana
-import.bat//負責合併檔案
-config:host,user,password,要傳的資料類型arima/lstm,站順序名稱:1.台南2.台中
-

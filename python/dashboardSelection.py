@@ -1,13 +1,14 @@
 import requests
 import pandas as pd
 import numpy as np
+from mainConfig import *
 
 headers = {
     'Accept':'application/json',
-    'Authorization': 'Bearer eyJrIjoiU08wSDcyOFZvM1BiYVZFNHhpWUdvazFWdmVseUdMeFgiLCJuIjoia2V5IiwiaWQiOjF9',
+    'Authorization': 'Bearer '+apiAuthorization+'',
     'Content-Type': 'application/json',
 }
-r = requests.get('http://localhost:3000/api/search',headers=headers,verify=False)
+r = requests.get('{}/api/search'.format(url),headers=headers,verify=False)
 dash_data=r.json()
 dash_data_len=len(dash_data)
 count=0

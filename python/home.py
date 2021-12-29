@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
-import sys
-import mysql.connector
+import sys,mysql.connector
+from mainConfig import *
 
 # 合併資料
 def merge():
@@ -84,7 +84,7 @@ def merge():
             excel = pd.DataFrame(z)
             names = '../outcome/location_'+location+'.csv'
             excel.to_csv(names, index=False)
-            print('excel '+location+' transformed A plan')
+            print('已合併成location_'+location)
         else:
             deleted = len(z['initial_temp'])-len(z['localtime'])
             del z['initial_temp'][-deleted:]
@@ -96,45 +96,61 @@ def merge():
             excel = pd.DataFrame(z)
             names = '../outcome/location_'+location+'.csv'
             excel.to_csv(names, index=False)
-            print('excel '+location+' transformed B plan')
+            print('已合併成location_'+location)
 
 
 # 新增資料庫
 def createMysqldata():
     while True:  
         try:
-            databaseName = input("新增資料庫名稱: ")
             mydb = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="root"
+            host="{}".format(host), 
+            user="{}".format(username),
+            password="{}".format(password)
         )
             mycursor = mydb.cursor()
-            mycursor.execute(" CREATE DATABASE " + databaseName)
-            mydb.database = databaseName
+            mycursor.execute(" CREATE DATABASE " + database)#
+            mydb.database = database
             break
         except mysql.connector.Error as err:
             if err.errno==1064:
-                print("命名錯誤,請重新嘗試")
+                print("資料庫命名錯誤,請重新嘗試")
+                sys.exit(1)
             if err.errno==1007:
-                print("重複的命名,請重新嘗試")
+                print("資料庫重複命名,請重新嘗試")
+                sys.exit(1)
        
-            
+    sql3 = "CREATE TABLE mapping (id int NOT NULL AUTO_INCREMENT,name varchar(30) NOT NULL,location varchar(30), PRIMARY KEY (id) )"
+    mycursor.execute(sql3)
+    # create table mapping
+
     for i in range(1, dataLength+1):
         dataOne = 'location'+str(i)
         dataTwo= 'location_'+str(i)
-        mycursor.execute("CREATE TABLE {location}(timestamp DATETIME NOT NULL ,\
+       
+        sql1="CREATE TABLE {} (timestamp DATETIME NOT NULL ,\
         initial_temp DECIMAL(10,2) NULL DEFAULT NULL ,\
         initial_hum DECIMAL(10,2) NULL DEFAULT NULL ,\
         chebychev_temp DECIMAL(10,2) NULL DEFAULT NULL ,\
         chebychev_hum DECIMAL(10,2) NULL DEFAULT NULL ,\
         arima_temp DECIMAL(10,2) NULL DEFAULT NULL ,\
-        arima DECIMAL(10,2) NULL DEFAULT NULL )".format(location=dataOne))
-    
-        sql2 = "LOAD DATA INFILE 'C:/xampp/htdocs/dashboard/cultureManualOpenGrafana/outcome/"+dataTwo+".csv' INTO TABLE "+dataOne+"  FIELDS TERMINATED BY ',' IGNORE 1 LINES "
+        arima DECIMAL(10,2) NULL DEFAULT NULL )".format(dataOne)
+        mycursor.execute(sql1)
+        # create table location%s
+
+        sql2 = "LOAD DATA INFILE '{}{}.csv' INTO TABLE {} FIELDS TERMINATED BY ',' IGNORE 1 LINES ".format(mysqlPath,dataTwo,dataOne)
         mycursor.execute(sql2)
+         # import data
+
+      
+        sql4 = "INSERT INTO mapping (name, location) VALUES ('{}', '{}')".format(mapping_fieldname[i-1],dataOne)
+        mycursor.execute(sql4)
+        # mapping
+        
         mydb.commit()
         print("建立成功")
+        
+        
         
 # 開始
 sysdata = sys.argv[1]

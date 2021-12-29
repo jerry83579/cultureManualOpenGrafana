@@ -33,7 +33,7 @@ set title=%urlUid[2]%
 
 python dashboardStop.py %uid%
 if %errorlevel% equ 1 (
-call :dashboard
+call :dashboards
 echo.
 )
 cd ..

@@ -163,7 +163,7 @@ for /l %%f in (1,1,%chebychevAmount%) do ( call echo %%chebychevOrder[%%f]%% )
 echo.
 echo Initialize:
 for /l %%f in (1,1,%chebychevAmount%) do ( call echo %%initializeOrder[%%f]%% )
-
+echo.
 ) else (
  echo oops, has problem 
  )
