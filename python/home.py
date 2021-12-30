@@ -7,19 +7,22 @@ from mainConfig import *
 def merge():
     for i in range(1, dataLength+1):
 
-        # i=12
         location = str(i)
         initial_data = '../initialize/' + location + '.csv'
         chebychev_data = '../chebychev/'+location+'.csv'
-        arima = '../arima/'+location+'.csv'
+        arima = '../arima/'+location+'.csv' 
+        lstm  = '../lstm/'+location+'.csv' 
+        mainMethod = arima if method == 'arima' else lstm
+        method_temp= method+'_temp'
+        method_hum= method+'_hum'
 
-        try:
-            data1 = pd.read_csv(initial_data)
-            data2 = pd.read_csv(chebychev_data)
-            data3 = pd.read_csv(arima)
-        except FileNotFoundError:
-            print("發生錯誤,找不到資料")
-            sys.exit()
+        # try:
+        data1 = pd.read_csv(initial_data)
+        data2 = pd.read_csv(chebychev_data)
+        data3 = pd.read_csv(mainMethod)
+        # except FileNotFoundError:
+        #     print("發生錯誤,找不到資料")
+        #     sys.exit()
 
     
         date = data2['LocalTime'].tolist()
@@ -27,8 +30,8 @@ def merge():
         initial_hum = data1['Hum'].tolist()
         chebychev_temp = data2['Temp'].tolist()
         chebychev_hum = data2['Hum'].tolist()
-        arima_temp = data3['Temp'].tolist()
-        arima_hum = data3['Hum'].tolist()
+        mainMethod_temp = data3['Temp'].tolist()
+        mainMethod_hum = data3['Hum'].tolist()
         # tag_temp = data3['Temp_m'].tolist()
         # tag_hum = data3['Hum_m'].tolist()
 
@@ -52,13 +55,13 @@ def merge():
             if np.isnan(chebychev_hum[i]):
                 chebychev_hum[i] = "\\N"
 
-        for i in range(len(arima_temp)):
-            if np.isnan(arima_temp[i]):
-                arima_temp[i] = "\\N"
+        for i in range(len(mainMethod_temp)):
+            if np.isnan(mainMethod_temp[i]):
+                mainMethod_temp[i] = "\\N"
 
-        for i in range(len(arima_hum)):
-            if np.isnan(arima_hum[i]):
-                arima_hum[i] = "\\N"
+        for i in range(len(mainMethod_hum)):
+            if np.isnan(mainMethod_hum[i]):
+                mainMethod_hum[i] = "\\N"
 
         # for i in range(len(tag_temp)):
         #     if tag_temp[i] == "X":
@@ -74,13 +77,13 @@ def merge():
             'initial_hum': initial_hum,
             'chebychev_temp': chebychev_temp,
             'chebychev_hum': chebychev_hum,
-            'arima_temp': arima_temp,
-            'arima_hum': arima_hum,
+            method_temp: mainMethod_temp,
+            method_hum: mainMethod_hum,
         }
         # 'temp_tag' : tag_temp,
         #     'hum_tag' : tag_hum,
 
-        if len(z['localtime']) == len(z['initial_temp']) == len(z['chebychev_temp']) == len(z['arima_temp']):
+        if len(z['localtime']) == len(z['initial_temp']) == len(z['chebychev_temp']) == len(z[method_temp]):
             excel = pd.DataFrame(z)
             names = '../outcome/location_'+location+'.csv'
             excel.to_csv(names, index=False)
@@ -92,7 +95,7 @@ def merge():
             print(len(z['localtime']))
             print(len(z['initial_temp']))
             print(len(z['chebychev_temp']))
-            print(len(z['arima_temp']))
+            print(len(z[mainMethod_temp]))
             excel = pd.DataFrame(z)
             names = '../outcome/location_'+location+'.csv'
             excel.to_csv(names, index=False)
@@ -133,8 +136,8 @@ def createMysqldata():
         initial_hum DECIMAL(10,2) NULL DEFAULT NULL ,\
         chebychev_temp DECIMAL(10,2) NULL DEFAULT NULL ,\
         chebychev_hum DECIMAL(10,2) NULL DEFAULT NULL ,\
-        arima_temp DECIMAL(10,2) NULL DEFAULT NULL ,\
-        arima DECIMAL(10,2) NULL DEFAULT NULL )".format(dataOne)
+        {}_temp DECIMAL(10,2) NULL DEFAULT NULL ,\
+        {}_hum DECIMAL(10,2) NULL DEFAULT NULL )".format(dataOne,method,method)
         mycursor.execute(sql1)
         # create table location%s
 
@@ -148,7 +151,7 @@ def createMysqldata():
         # mapping
         
         mydb.commit()
-        print("建立成功")
+        
         
         
         
@@ -157,4 +160,4 @@ sysdata = sys.argv[1]
 dataLength=int(sysdata)
 merge()
 createMysqldata()
-
+print("建立成功")
