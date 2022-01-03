@@ -3,13 +3,25 @@ echo off
 chcp 65001
 cls
 MODE con: COLS=60 
-set /a date=%date:~3,6%+1 
+
+::讀取mainConfig判斷年分
+cd python
+for /f  "tokens=2 delims==" %%i  in ('FINDSTR  "year" mainConfig.py') do (
+    set /a date=%%i
+)
+
+for /f  "tokens=2 delims==" %%i  in ('FINDSTR  "url" mainConfig.py') do (
+    set  grafanaUrl=%%i
+)
+cd ..
 
 set /a year=6
 rem 年份大小
 set month=12
 rem 判斷年份超過9補0
 set monthsize=9
+
+
 
 rem 顯示選擇資料庫圖表/提供使用者選擇資料庫圖表
 :dashboards
@@ -27,7 +39,7 @@ FOR /F %%i IN (data.txt) DO (
 set uid=%urlUid[0]%
 set url=%urlUid[1]%
 set title=%urlUid[2]%
-
+echo %url%
 
 
 
@@ -43,12 +55,15 @@ echo.
 rem 提供選擇年分
 :start
 echo.
-for /l %%x in (1, 1, !year!) do (
+set  count=1
+for /l %%x in (0, 1, !year!) do (
 set /a sum=!date! - %%x
-set number=%%x^)
-echo !number! !sum!
+echo !count!^) !sum!
+set /a count=count+1
 echo.
 )
+
+
 
 
 :cho1
@@ -60,7 +75,7 @@ for /f "delims=123456789" %%a in ("%fromYear%") do if not "%%a"=="" echo 無效�
 	)
 	
 
-set /a yourFromYear=%date%-%fromYear%
+set /a yourFromYear=%date%-%fromYear%+1
 echo %yourFromYear%
 	 
 
@@ -108,11 +123,11 @@ if %yourFromMonth% gtr %monthsize% (
     echo,%yourFromYear%-0%yourFromMonth%-01T00:00:00.000Z> "!a!"
 )
 
-
-for /l %%x in (1, 1, !year!) do (
+set  count=1
+for /l %%x in (0, 1, !year!) do (
 set /a sum=!date! - %%x
-set number=%%x^)
-echo !number! !sum!
+echo !count! !sum!
+set  /a count+=1
 echo.
 )
 
@@ -126,7 +141,7 @@ for /f "delims=123456789" %%a in ("%toYear%") do if not "%%a"=="" echo 無效請
 	)
 	
 
-set /a yourToYear=%date%-%toYear%
+set /a yourToYear=%date%-%toYear%+1
 echo %yourToYear%
 echo.   
    

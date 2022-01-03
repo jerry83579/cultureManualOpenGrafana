@@ -6,6 +6,12 @@ import numpy as np
 import subprocess, sys
 from mainConfig import *
 
+uid=sys.argv[1]
+array_from_file = np.loadtxt("../test.txt", dtype=str)
+new=np.array_str(array_from_file)
+timeFrom=new[2:26]
+timeTo=new[29:-2]
+
 headers = {
     'Accept':'application/json',
     'Authorization': 'Bearer {}'.format(apiAuthorization),
@@ -33,11 +39,7 @@ dash_data["dashboard"]["overwrite"]=True
 r = requests.post('{}/api/dashboards/db'.format(url),headers=headers,data=json.dumps(dash_data),verify=False)
 
 
-uid=sys.argv[1]
-array_from_file = np.loadtxt("../test.txt", dtype=str)
-new=np.array_str(array_from_file)
-timeFrom=new[2:26]
-timeTo=new[29:-2]
+
 
 
 

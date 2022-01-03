@@ -18,6 +18,7 @@ dash_data=r.json()
 
 # 該圖表站別數量
 def stopAmount():
+        global dataLength
         count=0
         dataLength=len(dash_data["dashboard"]["templating"]["list"][0]["options"])
         for item in dash_data["dashboard"]["templating"]["list"][0]["options"]:

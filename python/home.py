@@ -16,13 +16,13 @@ def merge():
         method_temp= method+'_temp'
         method_hum= method+'_hum'
 
-        # try:
-        data1 = pd.read_csv(initial_data)
-        data2 = pd.read_csv(chebychev_data)
-        data3 = pd.read_csv(mainMethod)
-        # except FileNotFoundError:
-        #     print("發生錯誤,找不到資料")
-        #     sys.exit()
+        try:
+            data1 = pd.read_csv(initial_data)
+            data2 = pd.read_csv(chebychev_data)
+            data3 = pd.read_csv(mainMethod)
+        except FileNotFoundError:
+            print("發生錯誤,找不到資料")
+            sys.exit()
 
     
         date = data2['LocalTime'].tolist()

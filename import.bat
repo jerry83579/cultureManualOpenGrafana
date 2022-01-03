@@ -1,10 +1,14 @@
 @setlocal enableextensions enabledelayedexpansion
 echo off
-
+chcp 65001
 cls
 MODE con: COLS=60 
 
-::§PÂ_method¬OlstmÁÙ¬Oarima
+If not exist outcome (
+    mkdir outcome
+)
+
+::è®€å–mainConfigæª”åˆ¤æ–·methodæ˜¯lstmé‚„æ˜¯arima
 cd python
 for /f %%i in (mainConfig.py) do (
   if  "%%i"=="method='lstm'" ( set method=lstm)
@@ -12,7 +16,7 @@ for /f %%i in (mainConfig.py) do (
 )
 cd ..
 
-::§e²{¸ê®Æ§¨
+::å‘ˆç¾è³‡æ–™å¤¾
 :displayFile
 
 set /a count=0
@@ -24,26 +28,31 @@ set mainMethod[!count!]=%%f
 
 )
 set /a maxCount=%count%
+
+
+
+
+
 :mainMethod
 If not exist %method% (
     mkdir %method%
 ) 
-set /p yourMethod=½Ğ¿ï¾Ü­n¶×¤Jªº¸ê®Æ§¨¨ì%method%ªº¸ê®Æ§¨:
-for /f "delims=1,2,3,4,5,6,7,8,9,10" %%a in ("%yourMethod%") do if not "%%a"=="" echo µL®Ä½Ğ­«¿ï &goto mainMethod
+set /p yourMethod=è«‹é¸æ“‡è¦åŒ¯å…¥çš„è³‡æ–™å¤¾åˆ°%method%çš„è³‡æ–™å¤¾:
+for /f "delims=1,2,3,4,5,6,7,8,9,10" %%a in ("%yourMethod%") do if not "%%a"=="" echo ç„¡æ•ˆè«‹é‡é¸ &goto mainMethod
 if %yourMethod% gtr %maxCount% (
-	echo µL®Ä½Ğ­«¿ï
+	echo ç„¡æ•ˆè«‹é‡é¸
 	call :mainMethod
 	)
 if %yourMethod% equ 0 (
-	echo µL®Ä½Ğ­«¿ï
+	echo ç„¡æ•ˆè«‹é‡é¸
 	call :mainMethod
 )
 
-call echo ¶×¤J %%mainMethod[%yourMethod%]%% ...
+call echo åŒ¯å…¥ %%mainMethod[%yourMethod%]%% ...
 call set ArrVar=%%mainMethod[%yourMethod%]%%
 copy  %ArrVar% %method%
 cd %method%
-::§R°£ÀÉ¦W±a¦³ªÅ®æªºªÅ®æ
+::åˆªé™¤æª”åå¸¶æœ‰ç©ºæ ¼çš„ç©ºæ ¼
 set "str= "
 for /f "delims=" %%i in ('dir /b *.*') do (
 set "var=%%i" & ren "%%i" "!var:%str%=!")
@@ -51,21 +60,21 @@ echo.
 
 
 :amountMainMethod
-::­pºâÀÉ®×¼Æ¶q
+::è¨ˆç®—æª”æ¡ˆæ•¸é‡
 set /a count=1
 set /a methodOrder
 for /f "tokens=*" %%i in ('dir /s^|find "File(s)" ') do ( set amount=%%i)
 for /f %%f in ("%amount%") do (set methodAmount=%%f)
-echo ¼Æ¶q¬°%methodAmount%
-::§ó§ïÄÒ¦W
+echo æ•¸é‡ç‚º%methodAmount%
+::æ›´æ”¹é»¨å
 for /f %%i in ('dir /b') do ( 
 set methodOrder[!count!]=%%i
 ren %%i !count!.csv  2>nul 
 set /a count+=1
 )
-echo ¶×¤J§¹¦¨
+echo åŒ¯å…¥å®Œæˆ
 
-cd ..
+cd ..	
 echo.
 
 ::-------------------------------------------------------------------------------
@@ -85,18 +94,18 @@ echo.
 If not exist "chebychev" (
     mkdir chebychev
 ) 
-set /p yourChebychev=½Ğ¿ï¾Ü­n¶×¤Jªº¸ê®Æ§¨¨ì chebychevªº¸ê®Æ§¨:
-for /f "delims=0,1,2,3,4,5,6,7,8,9" %%a in ("%yourChebychev%") do if not "%%a"=="" echo µL®Ä½Ğ­«¿ï &goto cheby
+set /p yourChebychev=è«‹é¸æ“‡è¦åŒ¯å…¥çš„è³‡æ–™å¤¾åˆ° chebychevçš„è³‡æ–™å¤¾:
+for /f "delims=0,1,2,3,4,5,6,7,8,9" %%a in ("%yourChebychev%") do if not "%%a"=="" echo ç„¡æ•ˆè«‹é‡é¸ &goto cheby
 if %yourChebychev% gtr %maxCount% (
-	echo µL®Ä½Ğ­«¿ï
+	echo ç„¡æ•ˆè«‹é‡é¸
 	call :cheby
 	)
 if %yourChebychev% equ 0 (
-	echo µL®Ä½Ğ­«¿ï
+	echo ç„¡æ•ˆè«‹é‡é¸
 	call :cheby
 )
 	
-call echo ¶×¤J %%chebychev[%yourChebychev%]%% ...
+call echo åŒ¯å…¥ %%chebychev[%yourChebychev%]%% ...
 call set copy=%%chebychev[%yourChebychev%]%%
 copy  %copy% chebychev
 
@@ -108,19 +117,19 @@ set "var=%%i" & ren "%%i" "!var:%str%=!")
 dir /b
 
 :amountRenameChebychev
-::­pºâÀÉ®×¼Æ¶q
+::è¨ˆç®—æª”æ¡ˆæ•¸é‡
 set /a count=1
 set /a chebychevOrder
 for /f "tokens=*" %%i in ('dir /s^|find "File(s)" ') do ( set amount=%%i)
 for /f %%f in ("%amount%") do (set chebychevAmount=%%f)
-echo ¼Æ¶q¬°%chebychevAmount%
-::§ó§ïÄÒ¦W
+echo æ•¸é‡ç‚º%chebychevAmount%
+::æ›´æ”¹é»¨å
 for /f %%i in ('dir /b') do ( 
 set chebychevOrder[!count!]=%%i
 ren %%i !count!.csv  2>nul 
 set /a count+=1
 )
-echo ¶×¤J§¹¦¨
+echo åŒ¯å…¥å®Œæˆ
 cd ..
 echo.
 
@@ -142,18 +151,18 @@ set /a count=1
 If not exist "initialize" (
     mkdir initialize
 ) 
-set /p yourInitialize=½Ğ¿ï¾Ü­n¶×¤Jªº¸ê®Æ§¨¨ì initializeªº¸ê®Æ§¨:
-for /f "delims=0,1,2,3,4,5,6,7,8,9" %%a in ("%yourInitialize%") do if not "%%a"=="" echo µL®Ä½Ğ­«¿ï &goto init
+set /p yourInitialize=è«‹é¸æ“‡è¦åŒ¯å…¥çš„è³‡æ–™å¤¾åˆ° initializeçš„è³‡æ–™å¤¾:
+for /f "delims=0,1,2,3,4,5,6,7,8,9" %%a in ("%yourInitialize%") do if not "%%a"=="" echo ç„¡æ•ˆè«‹é‡é¸ &goto init
 if %yourInitialize% gtr %maxCount% (
-	echo µL®Ä½Ğ­«¿ï
+	echo ç„¡æ•ˆè«‹é‡é¸
 	call :init
 	)
 if %yourInitialize% equ 0 (
-	echo µL®Ä½Ğ­«¿ï
+	echo ç„¡æ•ˆè«‹é‡é¸
 	call :init
 )
 	
-call echo ¶×¤J %%initialize[%yourInitialize%]%% ...
+call echo åŒ¯å…¥ %%initialize[%yourInitialize%]%% ...
 call set copy=%%initialize[%yourInitialize%]%%
 copy  %copy% initialize
 
@@ -165,19 +174,19 @@ set "var=%%i" & ren "%%i" "!var:%str%=!")
 dir /b
 
 :amountRenameInitialize
-::­pºâÀÉ®×¼Æ¶q
+::è¨ˆç®—æª”æ¡ˆæ•¸é‡
 set /a count=1
 set /a initializeOrder
 for /f "tokens=*" %%i in ('dir /s^|find "File(s)" ') do ( set amount=%%i)
 for /f %%f in ("%amount%") do (set initializeAmount=%%f)
-echo ¼Æ¶q¬°%initializeAmount%
-::§ó§ïÄÒ¦W
+echo æ•¸é‡ç‚º%initializeAmount%
+::æ›´æ”¹é»¨å
 for /f %%i in ('dir /b') do ( 
 set initializeOrder[!count!]=%%i
 ren %%i !count!.csv  2>nul 
 set /a count+=1
 )
-echo ¶×¤J§¹¦¨
+echo åŒ¯å…¥å®Œæˆ
 
 cd ..
 echo.
@@ -190,7 +199,7 @@ echo.
 if %chebychevAmount% == %methodAmount% if %methodAmount% == %initializeAmount% (
 mkdir outcome 2> NUL
 echo.
-echo ¦X¨ÖªºÀÉ®×¶¶§Ç
+echo åˆä½µçš„æª”æ¡ˆé †åº
 echo Arima:
 for /l %%f in (1,1,%chebychevAmount%) do ( call echo %%methodOrder[%%f]%% )
 echo.
@@ -207,6 +216,7 @@ echo.
 cd python
 python home.py %chebychevAmount% 
 cd ..
+echo ç¢ºå®šåˆªé™¤è³‡æ–™?
 del /q initialize
 del /q chebychev
 del  /q %method%
